@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author jens
+ * @author jens-na
  */
 public class ConfigDevice {
     

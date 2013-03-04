@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Main-Class
  * 
- * @author jens
+ * @author jens-na
  */
 public class BackupMonitorClient {
 
@@ -22,7 +22,7 @@ public class BackupMonitorClient {
             BackupMonitorClient.class);
 
     /**
-     * main method with args array
+     * main method with the argument array (args).
      * 
      * @param args
      * @throws Exception 
@@ -33,5 +33,6 @@ public class BackupMonitorClient {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(backupScheduler,
                 1, 10, TimeUnit.SECONDS);
+        
     }
 }

@@ -6,7 +6,7 @@ package de.backupkueche.backupmonitor.client.config;
 
 /**
  *
- * @author jens
+ * @author jens-na
  */
 public class ConfigJms {
     
