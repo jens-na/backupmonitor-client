@@ -26,10 +26,20 @@ public class ConfigUtils {
     private ConfigUtils() {};
     
     /**
+     * Returns all the necessary configurations for the client.
+     * 
+     * @return jms, device, user configurations stored in a Configuration object.
+     */
+    public static Configuration getConfiguration() {
+        return new Configuration(getConfigJms(), getConfigDevice(), 
+                getConfigUser());
+    }
+    
+    /**
      * 
      * @return 
      */
-    public static ConfigDevice getConfigDevice() {
+    private static ConfigDevice getConfigDevice() {
         if(device == null) {
             initDevice();
         }
@@ -49,15 +59,11 @@ public class ConfigUtils {
             device = (ConfigDevice) xstream.fromXML(new FileReader(file));
 
         } catch (FileNotFoundException ex) {
-            log.error("File '{}' not found.", "device-config.xml");
+//            log.error("File '{}' not found.", "device-config.xml");
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public static ConfigUser getConfigUser() {
+    private static ConfigUser getConfigUser() {
         if(user == null) {
             initUser();
         }
@@ -73,18 +79,14 @@ public class ConfigUtils {
             XStream xstream = new XStream();
             xstream.alias("user", ConfigUser.class);
 
-            device = (ConfigDevice) xstream.fromXML(new FileReader(userFile));
+            user = (ConfigUser) xstream.fromXML(new FileReader(userFile));
 
         } catch (FileNotFoundException ex) {
-            log.error("File '{}' not found.", "user-config.xml");
+//            log.error("File '{}' not found.", "user-config.xml");
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public static ConfigJms getConfigJms() {
+    private static ConfigJms getConfigJms() {
         if(jms == null) {
             initJms();
         }
@@ -100,10 +102,10 @@ public class ConfigUtils {
             XStream xstream = new XStream();
             xstream.alias("jms", ConfigJms.class);
 
-            device = (ConfigDevice) xstream.fromXML(new FileReader(file));
+            jms = (ConfigJms) xstream.fromXML(new FileReader(file));
 
         } catch (FileNotFoundException ex) {
-            log.error("File '{}' not found.", "jms-config.xml");
+//            log.error("File jms-config.xml not found.");
         }
     }
 

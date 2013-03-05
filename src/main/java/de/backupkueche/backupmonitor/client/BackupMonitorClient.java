@@ -4,6 +4,8 @@
  */
 package de.backupkueche.backupmonitor.client;
 
+import de.backupkueche.backupmonitor.client.config.ConfigUtils;
+import de.backupkueche.backupmonitor.client.config.Configuration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -28,11 +30,12 @@ public class BackupMonitorClient {
      * @throws Exception 
      */
     public static void main(String[] args) throws Exception {
-        BackupMonitorScheduler backupScheduler = new BackupMonitorScheduler();
+        Configuration config = ConfigUtils.getConfiguration();
+        
+        BackupMonitorScheduler backupScheduler = new BackupMonitorScheduler(config);
         
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(backupScheduler,
                 1, 10, TimeUnit.SECONDS);
-        
     }
 }
