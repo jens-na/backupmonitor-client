@@ -8,6 +8,16 @@ import de.backupkueche.backupmonitor.client.config.Configuration;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.jms.BytesMessage;
+import javax.jms.Connection;
+import javax.jms.DeliveryMode;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +47,14 @@ public class BackupMonitorScheduler implements Runnable {
             if(addr.isReachable(1000)) {
                 System.out.println("host reachable");
                 
-                if(send()) {
-                    System.exit(0);
-                }  
+                try {
+                    if(send()) {
+                        System.exit(0);
+                    }
+                }
+                catch(JMSException e) {
+                    e.printStackTrace();
+                }
             }
             else {
                 System.out.println("cannot establish connection");
@@ -59,7 +74,32 @@ public class BackupMonitorScheduler implements Runnable {
     /**
      * Sends the necessary data to the server.
      */
-    private boolean send() {
+    private boolean send() throws JMSException {
+        // Create a ConnectionFactory
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+                configuration.getJms().getAddress());
+
+        // Create a Connection
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
+
+        // Create a Session
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
+        // Create the destination (Topic or Queue)
+        Destination destination = session.createQueue("input");
+        
+        MessageProducer producer = session.createProducer(destination);
+        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+
+        List<String> list = configuration.getDevice().getFiles();
+        
+        for(String file : list) {
+            BytesMessage bytesMessage = session.createBytesMessage();
+            
+            // read file and send bytesmessage
+        }
+
         return true;
     }
 }
