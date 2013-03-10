@@ -1,4 +1,4 @@
 backupmonitor-client
 ====================
 
-an async backup monitor utility written in Java
+an async backup monitor utility using JMS, written in Java
