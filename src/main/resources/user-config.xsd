@@ -1,11 +1,17 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="jms">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="mail" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="passwd" type="xs:string" minOccurs="1" maxOccurs="1"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="EN">
+            user auth configuration for https://github.com/jens-na/backupmonitor-client
+        </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:element name="user" type="userComplex"/>
+
+    <xsd:complexType name="userComplex">
+        <xsd:sequence>        
+            <xsd:element name="user" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="password" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
