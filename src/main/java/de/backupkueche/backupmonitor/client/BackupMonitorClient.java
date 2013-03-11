@@ -31,10 +31,11 @@ public class BackupMonitorClient {
      */
     public static void main(String[] args) throws Exception {
         Configuration config = ConfigUtils.getConfiguration();
-        
+                
         BackupMonitorScheduler backupScheduler = new BackupMonitorScheduler(config);
         
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        
         ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(backupScheduler,
                 1, 10, TimeUnit.SECONDS);
     }

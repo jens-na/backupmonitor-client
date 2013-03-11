@@ -20,7 +20,7 @@ public class ConfigUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigUtils.class);
     private static ConfigDevice device = null;
-    private static ConfigJms jms = null;
+    private static ConfigHosts hosts = null;
     private static ConfigUser user = null;
 
     private ConfigUtils() {};
@@ -28,17 +28,13 @@ public class ConfigUtils {
     /**
      * Returns all the necessary configurations for the client.
      * 
-     * @return jms, device, user configurations stored in a Configuration object.
+     * @return hosts, device, user configurations stored in a Configuration object.
      */
     public static Configuration getConfiguration() {
         return new Configuration(getConfigJms(), getConfigDevice(), 
                 getConfigUser());
     }
     
-    /**
-     * 
-     * @return 
-     */
     private static ConfigDevice getConfigDevice() {
         if(device == null) {
             initDevice();
@@ -86,26 +82,27 @@ public class ConfigUtils {
         }
     }
 
-    private static ConfigJms getConfigJms() {
-        if(jms == null) {
-            initJms();
+    private static ConfigHosts getConfigJms() {
+        if(hosts == null) {
+            initHosts();
         }
-        return jms;
+        return hosts;
     }
 
-    private static void initJms() {
+    private static void initHosts() {
         File file;
         File configDir = getConfigDir();
-        file = new File(configDir, "jms-config.xml");
+        file = new File(configDir, "hosts-config.xml");
 
         try {
             XStream xstream = new XStream();
-            xstream.alias("jms", ConfigJms.class);
+            xstream.alias("hosts", ConfigHosts.class);
+            xstream.alias("entry", ConfigHostEntry.class);
 
-            jms = (ConfigJms) xstream.fromXML(new FileReader(file));
+            hosts = (ConfigHosts) xstream.fromXML(new FileReader(file));
 
         } catch (FileNotFoundException ex) {
-//            log.error("File jms-config.xml not found.");
+//            log.error("File hosts-config.xml not found.");
         }
     }
 

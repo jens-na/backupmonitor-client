@@ -10,18 +10,18 @@ package de.backupkueche.backupmonitor.client.config;
  */
 public class Configuration {
     
-    private ConfigJms jms;
+    private ConfigHosts hosts;
     private ConfigDevice device;
     private ConfigUser user;
 
-    public Configuration(ConfigJms jms, ConfigDevice device, ConfigUser user) {
-        this.jms = jms;
+    public Configuration(ConfigHosts hosts, ConfigDevice device, ConfigUser user) {
+        this.hosts = hosts;
         this.device = device;
         this.user = user;
     }
     
-    public ConfigJms getJms() {
-        return jms;
+    public ConfigHosts getHosts() {
+        return hosts;
     }
 
     public ConfigDevice getDevice() {
