@@ -4,13 +4,13 @@
  */
 package de.backupkueche.backupmonitor.client;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import de.backupkueche.backupmonitor.client.config.ConfigHostEntry;
 import de.backupkueche.backupmonitor.client.config.Configuration;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,14 +32,37 @@ public class BackupMonitorScheduler implements Runnable {
 
     @Override
     public void run() {
-
+        ConfigHostEntry entry = configuration.getHosts().getEntries().get(0);
+        
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost(entry.getHost());
+        factory.setPort(Integer.valueOf(entry.getPort()));
+        
+        Connection connection = null;
+        Channel channel = null;
+        
+        try {
+            connection = factory.newConnection();
+            channel = connection.createChannel();
+            channel.queueDeclare();
+            
+            String message=  "test";
+            System.out.println(" [x] Sent '" + message + "'");
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // log
+        }
+        
+        
+        
     }
 
     /**
      * Sends the necessary data to the server.
      */
     private boolean send() {
-
+        
         return true;
     }
 }
